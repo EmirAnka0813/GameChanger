@@ -1,309 +1,159 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GameChanger</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      box-sizing: border-box;
-    }
-    * {
-      font-family: 'Outfit', sans-serif;
-    }
-    .card-hover {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .card-hover:hover {
-      transform: translateY(-4px);
-    }
-    .nav-item {
-      transition: all 0.2s ease;
-    }
-    .nav-item:hover {
-      transform: scale(1.1);
-    }
-    .nav-item.active {
-      color: #3b82f6;
-    }
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-card {
-      animation: fadeInUp 0.5s ease forwards;
-    }
-    .animate-card:nth-child(1) { animation-delay: 0.1s; }
-    .animate-card:nth-child(2) { animation-delay: 0.2s; }
-    .animate-card:nth-child(3) { animation-delay: 0.3s; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameChanger - Okul Etkinlik Ağı</title>
+    <style>
+        :root {
+            --primary: #4ecca3;
+            --secondary: #45b293;
+            --bg: #1a1a2e;
+            --card-bg: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .app-container {
+            width: 360px;
+            height: 640px;
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 40px;
+            padding: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        h1 {
+            color: var(--primary);
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #bdc3c7;
+        }
+        .event-list {
+            flex: 1;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .event-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 6px solid var(--primary);
+            transition: 0.3s ease;
+        }
+        .event-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        .event-info h3 {
+            margin: 0;
+            font-size: 17px;
+        }
+        .event-info p {
+            margin: 5px 0;
+            font-size: 12px;
+            color: #4ecca3;
+        }
+        .join-btn {
+            background: var(--primary);
+            color: var(--bg);
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .nav-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+        }
+        .badge-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .badge {
+            background: gold;
+            color: black;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
-<body class="h-full">
-  <div id="app" class="h-full w-full bg-slate-950 flex flex-col overflow-auto">
-    
-    <!-- Header -->
-    <header class="flex-shrink-0 px-6 py-5 bg-gradient-to-r from-slate-900 to-slate-950 border-b border-slate-800">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-            </svg>
-          </div>
-          <h1 id="app-title" class="text-2xl font-bold text-white tracking-tight">GameChanger</h1>
-        </div>
-        <button class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-slate-700 transition-colors">
-          <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-          </svg>
-        </button>
-      </div>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1>GameChanger</h1>
+        <p class="subtitle">Okul Etkinlik Ağı</p>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-1 px-5 py-6 overflow-auto">
-      <p class="text-slate-400 text-sm mb-6 font-medium">Discover your interests</p>
-      
-      <div class="flex flex-col gap-4">
-        <!-- Sport Card -->
-        <div class="card-hover animate-card opacity-0 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 border border-slate-700/50 cursor-pointer group">
-          <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center border border-blue-500/30 group-hover:border-blue-400/50 transition-colors">
-              <svg class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
+    <div class="badge-container">
+        <span class="badge">🏆 Sporcu</span>
+        <span class="badge">💻 Yazılımcı</span>
+        <span class="badge">🎨 Sanatçı</span>
+    </div>
+
+    <div class="event-list">
+        <div class="event-card">
+            <div class="event-info">
+                <h3>🏀 Basketbol Turnuvası</h3>
+                <p>📍 Spor Salonu | 🕒 12:30</p>
             </div>
-            <div class="flex-1">
-              <h3 id="card-1" class="text-white font-semibold text-lg mb-1">Sport</h3>
-              <p class="text-slate-400 text-sm">12 active events</p>
-            </div>
-            <svg class="w-5 h-5 text-slate-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
+            <button class="join-btn" onclick="alert('Turnuvaya kaydınız yapıldı!')">KATIL</button>
         </div>
 
-        <!-- Art Card -->
-        <div class="card-hover animate-card opacity-0 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 border border-slate-700/50 cursor-pointer group">
-          <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 flex items-center justify-center border border-purple-500/30 group-hover:border-purple-400/50 transition-colors">
-              <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
-              </svg>
+        <div class="event-card" style="border-left-color: #f39c12;">
+            <div class="event-info">
+                <h3>💻 Kodlama Yarışması</h3>
+                <p>📍 Bilişim Laboratuvarı | 🕒 15:00</p>
             </div>
-            <div class="flex-1">
-              <h3 id="card-2" class="text-white font-semibold text-lg mb-1">Art</h3>
-              <p class="text-slate-400 text-sm">8 active events</p>
-            </div>
-            <svg class="w-5 h-5 text-slate-500 group-hover:text-purple-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
+            <button class="join-btn" style="background: #f39c12;" onclick="alert('Yarışmaya kaydınız yapıldı!')">KATIL</button>
         </div>
 
-        <!-- Tech Card -->
-        <div class="card-hover animate-card opacity-0 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 border border-slate-700/50 cursor-pointer group">
-          <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500/20 to-cyan-600/20 flex items-center justify-center border border-cyan-500/30 group-hover:border-cyan-400/50 transition-colors">
-              <svg class="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-              </svg>
+        <div class="event-card" style="border-left-color: #9b59b6;">
+            <div class="event-info">
+                <h3>🎨 Resim Sergisi</h3>
+                <p>📍 Okul Holü | 🕒 Tüm Gün</p>
             </div>
-            <div class="flex-1">
-              <h3 id="card-3" class="text-white font-semibold text-lg mb-1">Tech</h3>
-              <p class="text-slate-400 text-sm">15 active events</p>
-            </div>
-            <svg class="w-5 h-5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
+            <button class="join-btn" style="background: #9b59b6;" onclick="alert('Etkinliğe kaydınız yapıldı!')">KATIL</button>
         </div>
-      </div>
-    </main>
+    </div>
 
-    <!-- Bottom Navigation -->
-    <nav class="flex-shrink-0 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-6 py-4">
-      <div class="flex justify-around items-center">
-        <button class="nav-item active flex flex-col items-center gap-1">
-          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-          </svg>
-          <span class="text-xs font-medium">Home</span>
-        </button>
-        <button class="nav-item text-slate-500 flex flex-col items-center gap-1">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-          </svg>
-          <span class="text-xs font-medium">Events</span>
-        </button>
-        <button class="nav-item text-slate-500 flex flex-col items-center gap-1">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-          </svg>
-          <span class="text-xs font-medium">Profile</span>
-        </button>
-      </div>
+    <nav class="nav-bar">
+        <span>🏠 Keşfet</span>
+        <span>📊 Skorlar</span>
+        <span>👤 Profil</span>
     </nav>
-  </div>
+</div>
 
-  <script>
-    const defaultConfig = {
-      app_title: 'GameChanger',
-      card_1_title: 'Sport',
-      card_2_title: 'Art',
-      card_3_title: 'Tech',
-      background_color: '#020617',
-      surface_color: '#1e293b',
-      text_color: '#f8fafc',
-      primary_action: '#3b82f6',
-      secondary_action: '#64748b',
-      font_family: 'Outfit',
-      font_size: 16
-    };
-
-    async function onConfigChange(config) {
-      const appTitle = document.getElementById('app-title');
-      const card1 = document.getElementById('card-1');
-      const card2 = document.getElementById('card-2');
-      const card3 = document.getElementById('card-3');
-      const app = document.getElementById('app');
-
-      if (appTitle) appTitle.textContent = config.app_title || defaultConfig.app_title;
-      if (card1) card1.textContent = config.card_1_title || defaultConfig.card_1_title;
-      if (card2) card2.textContent = config.card_2_title || defaultConfig.card_2_title;
-      if (card3) card3.textContent = config.card_3_title || defaultConfig.card_3_title;
-
-      const bgColor = config.background_color || defaultConfig.background_color;
-      const surfaceColor = config.surface_color || defaultConfig.surface_color;
-      const textColor = config.text_color || defaultConfig.text_color;
-      const primaryAction = config.primary_action || defaultConfig.primary_action;
-      const secondaryAction = config.secondary_action || defaultConfig.secondary_action;
-
-      if (app) app.style.backgroundColor = bgColor;
-
-      document.querySelectorAll('.card-hover').forEach(card => {
-        card.style.backgroundColor = surfaceColor;
-      });
-
-      document.querySelectorAll('h1, h3').forEach(el => {
-        el.style.color = textColor;
-      });
-
-      document.querySelectorAll('.nav-item.active').forEach(el => {
-        el.style.color = primaryAction;
-      });
-
-      const customFont = config.font_family || defaultConfig.font_family;
-      const baseSize = config.font_size || defaultConfig.font_size;
-      const baseFontStack = 'sans-serif';
-
-      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
-      
-      if (appTitle) appTitle.style.fontSize = `${baseSize * 1.5}px`;
-      document.querySelectorAll('h3').forEach(el => {
-        el.style.fontSize = `${baseSize * 1.125}px`;
-      });
-      document.querySelectorAll('p, span').forEach(el => {
-        el.style.fontSize = `${baseSize * 0.875}px`;
-      });
-    }
-
-    function mapToCapabilities(config) {
-      return {
-        recolorables: [
-          {
-            get: () => config.background_color || defaultConfig.background_color,
-            set: (value) => {
-              config.background_color = value;
-              window.elementSdk.setConfig({ background_color: value });
-            }
-          },
-          {
-            get: () => config.surface_color || defaultConfig.surface_color,
-            set: (value) => {
-              config.surface_color = value;
-              window.elementSdk.setConfig({ surface_color: value });
-            }
-          },
-          {
-            get: () => config.text_color || defaultConfig.text_color,
-            set: (value) => {
-              config.text_color = value;
-              window.elementSdk.setConfig({ text_color: value });
-            }
-          },
-          {
-            get: () => config.primary_action || defaultConfig.primary_action,
-            set: (value) => {
-              config.primary_action = value;
-              window.elementSdk.setConfig({ primary_action: value });
-            }
-          },
-          {
-            get: () => config.secondary_action || defaultConfig.secondary_action,
-            set: (value) => {
-              config.secondary_action = value;
-              window.elementSdk.setConfig({ secondary_action: value });
-            }
-          }
-        ],
-        borderables: [],
-        fontEditable: {
-          get: () => config.font_family || defaultConfig.font_family,
-          set: (value) => {
-            config.font_family = value;
-            window.elementSdk.setConfig({ font_family: value });
-          }
-        },
-        fontSizeable: {
-          get: () => config.font_size || defaultConfig.font_size,
-          set: (value) => {
-            config.font_size = value;
-            window.elementSdk.setConfig({ font_size: value });
-          }
-        }
-      };
-    }
-
-    function mapToEditPanelValues(config) {
-      return new Map([
-        ['app_title', config.app_title || defaultConfig.app_title],
-        ['card_1_title', config.card_1_title || defaultConfig.card_1_title],
-        ['card_2_title', config.card_2_title || defaultConfig.card_2_title],
-        ['card_3_title', config.card_3_title || defaultConfig.card_3_title]
-      ]);
-    }
-
-    // Navigation functionality
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.addEventListener('click', function() {
-        document.querySelectorAll('.nav-item').forEach(nav => {
-          nav.classList.remove('active');
-          nav.classList.add('text-slate-500');
-        });
-        this.classList.add('active');
-        this.classList.remove('text-slate-500');
-      });
-    });
-
-    // Initialize SDK
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities,
-        mapToEditPanelValues
-      });
-    }
-  </script>
 </body>
 </html>
